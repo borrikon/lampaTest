@@ -1,52 +1,49 @@
 import React from "react";
 import Form from "../form";
-import {Grid, Typography} from "@material-ui/core";
-// import ProductItemBasket from "../ProductItemBasket";
+import {Grid} from "@material-ui/core";
+import ProductItemBasket from "../ProductItemBasket";
 import {useStyles} from "./styles";
+import {connect} from "react-redux";
+import Total from "../total";
 
-const Basket = () => {
+const Basket = ({basketItems}) => {
 
     const { root } = useStyles()
 
-    // let productsArray = []
 
-    // function getProductsFromLocal(){
-    //     for(let i = 1; i<=6; i++){
-    //         console.log(typeof localStorage.getItem(`${i}`) !== 'null')
-    //         if(localStorage.getItem(`${i}`) !== null){
-    //             productsArray.push(JSON.parse(localStorage.getItem(`${i}`)))
-    //         }
-    //     }
-    //
-    // }
+    function getTotalPrice() {
+        let total = 0
+        basketItems.forEach(item => total += item.price)
+        return total
+    }
 
     return(
 
         <div className={root}>
-            {/*{getProductsFromLocal()}*/}
             <Grid justify="space-between" alignItems="flex-start" container spacing={3}>
                 <Grid item xs={6}>
                     <Grid container direction='column'>
-                        {/*{*/}
-                        {/*    productsArray.map((item, i)=> {*/}
-                        {/*        return(<ProductItemBasket*/}
-                        {/*            key={i}*/}
-                        {/*            {...item}*/}
-                        {/*        />)*/}
-                        {/*    })*/}
-                        {/*}*/}
+                        {
+                            basketItems.map((item, i)=> {
+                                return(<ProductItemBasket
+                                    key={i}
+                                    {...item}
+                                />)
+                            })
+                        }
                     </Grid>
                 </Grid>
                 <Grid item xs={4}>
                     <Form />
                 </Grid>
             </Grid>
-            <div>
-                <Typography component="h5" variant="h5">
-                    total
-                </Typography>
-            </div>
+            <Total getTotalPrice={getTotalPrice} />
         </div>
     )
 }
-export default Basket;
+const mapStateToProps = (state)=>{
+    return {
+        basketItems: state.product.basketProducts
+    }
+}
+export default connect(mapStateToProps, null)(Basket);

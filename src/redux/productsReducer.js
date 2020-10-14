@@ -1,9 +1,12 @@
 import {productsInfo} from "../helper/productsInfo";
 import {ADD_TO_BASKET} from "./types";
 
+const persistedState = localStorage.getItem('basketState')
+                        ? JSON.parse(localStorage.getItem('basketState'))
+                        : []
 const initialState = {
     products: productsInfo,
-    basketProducts: []
+    basketProducts: persistedState
 }
 
 export const productReducer = (state = initialState, action) => {
