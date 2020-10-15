@@ -4,8 +4,12 @@ import ProductItem from "../productItem/index";
 import { connect } from 'react-redux'
 
 import {Container, Grid} from "@material-ui/core";
+import {getProductList} from "../../redux/actions";
 
-const ProductItemComponents = ({prodList}) => {
+const ProductItemComponents = ({prodList, asyncGet}) => {
+
+    asyncGet()
+
     return(
         <Container maxWidth='xl'>
             <Grid
@@ -17,7 +21,7 @@ const ProductItemComponents = ({prodList}) => {
                 spacing={4}
             >
                 {
-                    prodList.map((data, i)=>(
+                      prodList.map((data, i)=>(
                         <ProductItem
                             key={i+data.name}
                             {...data}
@@ -34,5 +38,10 @@ const mapStateToProps = (state) => {
         prodList: state.product.products
     }
 }
+const mapDispatchToProps = dispatch => {
+    return {
+        asyncGet: ()=>{dispatch(getProductList())}
+    }
+}
 
-export default connect(mapStateToProps, null)(ProductItemComponents);
+export default connect(mapStateToProps, mapDispatchToProps)(ProductItemComponents);

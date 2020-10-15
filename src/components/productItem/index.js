@@ -11,15 +11,31 @@ import {Grid} from "@material-ui/core";
 
 import {useStyles} from "./styles";
 
-import {addProductToBasket} from "../../redux/actions";
+import {addCountProduct, addProductToBasket, addTotalPrise} from "../../redux/actions";
 import { connect } from 'react-redux';
+import {changeCountOfBasketProd, filterDuplicate, getTotalPrice} from "../../utils/utils";
+import {store} from "../../redux/store";
 
 
 const ProductItem = (props) => {
 
-    const {img, name, description, price, addProduct} = props
+    const {id, img, name, description, count, prise, addProduct, addTotal, basketItems, addCount} = props
 
     const { root, cont } = useStyles()
+
+    function addProductClick(id) {
+
+        const duplicate = filterDuplicate(basketItems)
+        let isInBasket = Object.keys(duplicate).filter(item => +item === id)
+
+        if(isInBasket.length > 0){
+            addCount(changeCountOfBasketProd(duplicate, basketItems))
+        }else{
+            addProduct({id, name, img, description, prise, count})
+        }
+        addTotal(getTotalPrice(store.getState().product.basketProducts))
+    }
+
 
     return(
         <Grid className={cont} item xs={4}>
@@ -40,15 +56,15 @@ const ProductItem = (props) => {
                             {description}
                         </Typography>
                         <Typography variant="body2" color="textSecondary" component="p">
-                            {price}
+                            {prise}$
                         </Typography>
                     </CardContent>
                 </CardActionArea>
                 <CardActions>
                     <Button onClick={()=>
-                        addProduct(props)
-                    } size="small" color="primary">
-                        Add to bucket
+                        addProductClick(id)
+                    } size="small" variant="contained" color="primary">
+                        Add to cart
                     </Button>
                 </CardActions>
             </Card>
@@ -58,8 +74,14 @@ const ProductItem = (props) => {
 
 const mapDispatchToProps = dispatch => {
     return  {
-        addProduct: (props)=>dispatch(addProductToBasket(props))
+        addTotal: (prise)=>dispatch(addTotalPrise(prise)),
+        addProduct: (props)=>dispatch(addProductToBasket(props)),
+        addCount: (item)=>dispatch(addCountProduct(item))
     }
 }
-
-export default connect(null, mapDispatchToProps)(ProductItem);
+const mapStateToProps = state => {
+    return {
+        basketItems: state.product.basketProducts
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(ProductItem);

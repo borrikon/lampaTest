@@ -11,5 +11,12 @@ export const useStyles = makeStyles({
     },
     cont: {
         marginBottom: 20
+    },
+    btn: {
+        margin: '0px 10px'
+    },
+    container: {
+        display: 'flex',
+        alignContent: 'center'
     }
 });

@@ -5,10 +5,11 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import {useStyles} from "./styles";
 import {Link} from "react-router-dom";
+import Total from "../total";
 
 const Menu = () => {
 
-    const { menu, link, cont } = useStyles()
+    const { menu, link, cont, btn, container } = useStyles()
 
     return(
         <>
@@ -19,11 +20,14 @@ const Menu = () => {
                             Shop
                         </Link>
                     </Typography>
-                    <Button color="inherit">
-                        <Link className={link} to='/basket'>
-                            Items
-                        </Link>
-                    </Button>
+                    <div className={container}>
+                        <Total/>
+                        <Button className={btn} variant="contained" color="secondary">
+                            <Link className={link} to='/basket'>
+                                Items
+                            </Link>
+                        </Button>
+                    </div>
                 </Toolbar>
             </AppBar>
         </>

@@ -12,7 +12,7 @@ export const useStyles = makeStyles({
         marginLeft: 20,
         minWidth: 100
     },
-    img:{
+    image:{
         width: 300,
     },
     content:{

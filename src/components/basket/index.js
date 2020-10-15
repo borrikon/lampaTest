@@ -10,13 +10,6 @@ const Basket = ({basketItems}) => {
 
     const { root } = useStyles()
 
-
-    function getTotalPrice() {
-        let total = 0
-        basketItems.forEach(item => total += item.price)
-        return total
-    }
-
     return(
 
         <div className={root}>
@@ -24,12 +17,15 @@ const Basket = ({basketItems}) => {
                 <Grid item xs={6}>
                     <Grid container direction='column'>
                         {
-                            basketItems.map((item, i)=> {
+                            (basketItems.length > 0)
+                             ? basketItems.map((item, i)=> {
                                 return(<ProductItemBasket
                                     key={i}
                                     {...item}
+                                    basketItems={basketItems}
                                 />)
                             })
+                            : <h4>Buy something</h4>
                         }
                     </Grid>
                 </Grid>
@@ -37,7 +33,7 @@ const Basket = ({basketItems}) => {
                     <Form />
                 </Grid>
             </Grid>
-            <Total getTotalPrice={getTotalPrice} />
+            <Total />
         </div>
     )
 }

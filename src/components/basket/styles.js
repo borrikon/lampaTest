@@ -4,7 +4,6 @@ export const useStyles = makeStyles({
     root: {
         width: '100%',
         maxWidth: 1200,
-        margin: '0 auto'
+        margin: '0 auto',
     },
-
 });
