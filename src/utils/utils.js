@@ -9,14 +9,14 @@ export const filterDuplicate = (array) => {
         ), {})
     return  duplicate
 }
-export function changeCountOfBasketProd (dupl, prod) {
+export function changeCountOfBasketProd (dupl={}, prod) {
     const duplItems = Object.keys(dupl)
     const prodWithoutDupl = removeDuplicates(prod, "id");
     const newArray = []
     duplItems.map((item, index)=> {
 
         let currentProd = prodWithoutDupl.filter(prod => prod.id === +item)
-        currentProd[0].count += dupl[index+1]
+        currentProd[0].count += dupl[item]
         return(
             newArray.push(currentProd[0])
         )

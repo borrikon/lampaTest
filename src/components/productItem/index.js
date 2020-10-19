@@ -26,9 +26,10 @@ const ProductItem = (props) => {
     function addProductClick(id) {
 
         const duplicate = filterDuplicate(basketItems)
+
         let isInBasket = Object.keys(duplicate).filter(item => +item === id)
 
-        if(isInBasket.length > 0){
+        if(isInBasket.length){
             addCount(changeCountOfBasketProd(duplicate, basketItems))
         }else{
             addProduct({id, name, img, description, prise, count})
